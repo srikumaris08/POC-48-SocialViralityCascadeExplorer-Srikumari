@@ -1,0 +1,802 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+AGENTS.md
+app/data/mockCascade.ts
+app/favicon.ico
+app/globals.css
+app/layout.tsx
+app/page.tsx
+CLAUDE.md
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.mjs
+public/file.svg
+public/globe.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="app/data/mockCascade.ts">
+// app/data/mockCascade.ts
+
+export interface CascadeNode {
+  id: string;
+  type: 'origin' | 'influencer' | 'organic';
+  platform: 'X' | 'TikTok' | 'LinkedIn' | 'Reddit';
+  user: string;
+  timestamp: number; // Minutes from initial post
+  timeLabel: string;
+  content: string;
+  reach: number;
+  parentId: string | null;
+}
+
+export const mockCascadeData: CascadeNode[] = [
+  {
+    id: "node-0",
+    type: "origin",
+    platform: "X",
+    user: "@Tech_Whistleblower",
+    timestamp: 0,
+    timeLabel: "12:00 PM",
+    content: "BREAKING: Underlying algorithmic routing rails found diverting public data pipelines without verified consent tokens.",
+    reach: 5000,
+    parentId: null
+  },
+  {
+    id: "node-1",
+    type: "organic",
+    platform: "X",
+    user: "@Dev_Alpha",
+    timestamp: 5,
+    timeLabel: "12:05 PM",
+    content: "Looked into the routing packets. This is verified. The distribution infrastructure is entirely compromised.",
+    reach: 1200,
+    parentId: "node-0"
+  },
+  {
+    id: "node-2",
+    type: "influencer",
+    platform: "LinkedIn",
+    user: "@Venture_Capital_Daily",
+    timestamp: 15,
+    timeLabel: "12:15 PM",
+    content: "Massive implications hitting the tech market right now. Corporate data pipelines are operating on unverified rails. Read below:",
+    reach: 85000,
+    parentId: "node-0"
+  },
+  {
+    id: "node-3",
+    type: "organic",
+    platform: "LinkedIn",
+    user: "@SaaS_Founder_X",
+    timestamp: 22,
+    timeLabel: "12:22 PM",
+    content: "This changes our entire operational compliance approach for Q3.",
+    reach: 3400,
+    parentId: "node-2"
+  },
+  {
+    id: "node-4",
+    type: "influencer",
+    platform: "TikTok",
+    user: "@ByteSizePolitics",
+    timestamp: 30,
+    timeLabel: "12:30 PM",
+    content: "Why everyone is talking about the 'Data Rail' scandal explained in 60 seconds. 🧵👇",
+    reach: 250000,
+    parentId: "node-1"
+  },
+  {
+    id: "node-5",
+    type: "organic",
+    platform: "Reddit",
+    user: "u/NetSecurity_Mod",
+    timestamp: 45,
+    timeLabel: "12:45 PM",
+    content: "Megathread: Technical breakdown of algorithmic routing rails and platform distribution control layers.",
+    reach: 45000,
+    parentId: "node-4"
+  },
+  {
+    id: "node-6",
+    type: "organic",
+    platform: "X",
+    user: "@Privacy_Watchdog",
+    timestamp: 60,
+    timeLabel: "01:00 PM",
+    content: "Demanding regulatory audits on all centralized network distribution nodes immediately.",
+    reach: 18000,
+    parentId: "node-2"
+  }
+];
+
+// Structural metric metadata to satisfy dashboard analytic widgets
+export const infrastructureMetadata = {
+  totalGlobalReach: 407600,
+  peakVelocity: "14,200 shares/min",
+  dominantPlatform: "TikTok (61.3% attention share)",
+  decayHalfLife: "42 minutes"
+};
+</file>
+
+<file path="app/globals.css">
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/page.tsx">
+"use client";
+
+import React, { useState, useMemo, useEffect } from "react";
+import { Play, Pause, RotateCcw, Download, ShieldAlert, Layers, BarChart3, Info } from "lucide-react";
+import { mockCascadeData, infrastructureMetadata, CascadeNode } from "./data/mockCascade";
+
+export default function SocialViralityCascadeExplorer() {
+  // Timeline State Control
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const maxTime = 60; // Minutes matching our mock data timeline
+  const [selectedPlatform, setSelectedPlatform] = useState<string>("All");
+  const [hoveredNode, setHoveredNode] = useState<CascadeNode | null>(null);
+
+  // Playback loop interval
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setCurrentTime((prev) => {
+          if (prev >= maxTime) {
+            setIsPlaying(false);
+            return maxTime;
+          }
+          return prev + 1;
+        });
+      }, 300); // Speed of replay animation
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  // Filter nodes that have occurred up to the current timeline slider position
+  const visibleNodes = useMemo(() => {
+    return mockCascadeData.filter((node) => {
+      const matchesTime = node.timestamp <= currentTime;
+      const matchesPlatform = selectedPlatform === "All" || node.platform === selectedPlatform;
+      return matchesTime && matchesPlatform;
+    });
+  }, [currentTime, selectedPlatform]);
+
+  // Calculate dynamic stats based on current visible timeline window
+  const currentMetrics = useMemo(() => {
+    const totalVisibleReach = visibleNodes.reduce((acc, curr) => acc + curr.reach, 0);
+    return {
+      activeNodes: visibleNodes.length,
+      accumulatedReach: totalVisibleReach,
+      velocity: visibleNodes.length > 1 ? `${Math.round(totalVisibleReach / (currentTime || 1))} views/min` : "0 views/min"
+    };
+  }, [visibleNodes, currentTime]);
+
+  // Handle data export download
+  const downloadSampleData = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mockCascadeData, null, 2));
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "social_virality_cascade_sample.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  return (
+    <div className="min-h-screen bg-[#030712] text-slate-100 font-sans selection:bg-cyan-500/30">
+      {/* Premium Top Navbar Banner */}
+      <header className="border-b border-slate-800/60 bg-[#090d16] px-6 py-4 flex items-center justify-between backdrop-blur-md sticky top-0 z-50">
+        <div className="flex items-center space-x-3">
+          <div className="h-3 w-3 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_10px_#06b6d4]" />
+          <h1 className="text-lg font-semibold tracking-tight text-slate-200">
+            Real Rails Intelligence Library <span className="text-slate-500 font-normal">|</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Social Virality Cascade Explorer</span>
+          </h1>
+        </div>
+        <div className="flex items-center space-x-4">
+          <span className="text-xs font-mono uppercase bg-slate-800/60 text-slate-400 border border-slate-700/50 px-2.5 py-1 rounded">
+            Rail: Distribution & Demand
+          </span>
+          <span className="text-xs font-mono uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded">
+            Synthetic Feed Mode
+          </span>
+        </div>
+      </header>
+
+      {/* Main Container Split: 70% Canvas Main Stage / 30% Narrative Sidebar */}
+      <main className="flex flex-col lg:flex-row min-h-[calc(100vh-69px)]">
+        
+        {/* ========================================================= */}
+        {/* LEFT COLUMN: MAIN VISUALIZATION STAGE (70% Area Width)   */}
+        {/* ========================================================= */}
+        <section className="w-full lg:w-[70%] p-6 flex flex-col border-r border-slate-800/40 space-y-6">
+          
+          {/* Section Heading & Interactive Filter Strip */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/40 pb-4">
+            <div>
+              <h2 className="text-md font-medium text-slate-300">Cascade Replay Stage</h2>
+              <p className="text-xs text-slate-400 mt-0.5">Watch algorithmic routing vectors propagate audience attention over time grids.</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs font-mono text-slate-500 uppercase">Filter Vector:</span>
+              <select 
+                value={selectedPlatform} 
+                onChange={(e) => setSelectedPlatform(e.target.value)}
+                className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded px-3 py-1.5 focus:outline-none focus:border-cyan-500"
+              >
+                <option value="All">All Platforms</option>
+                <option value="X">X (Twitter)</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Reddit">Reddit</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Core Feature: Cascade Graph Simulated Canvas Area */}
+          <div className="relative flex-1 min-h-[400px] bg-[#050911] rounded-lg border border-slate-800/80 p-6 overflow-hidden flex flex-col justify-between">
+            
+            {/* Top Hover Info Box (Rich Tooltip Feature) */}
+            <div className="absolute top-4 left-4 z-10 min-w-[240px] max-w-sm bg-[#0a0f1d]/90 backdrop-blur border border-slate-800 rounded p-3 shadow-2xl">
+              {hoveredNode ? (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-cyan-400 font-mono">{hoveredNode.user}</span>
+                    <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                      {hoveredNode.platform}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 line-clamp-2 italic">"{hoveredNode.content}"</p>
+                  <div className="pt-1.5 border-t border-slate-800 flex justify-between text-[10px] font-mono text-slate-400">
+                    <span>Reach: <strong className="text-slate-200">{hoveredNode.reach.toLocaleString()}</strong></span>
+                    <span>T + {hoveredNode.timestamp}m</span>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 flex items-center gap-1.5">
+                  <Info size={13} className="text-cyan-500/70" /> Hover over interactive graph nodes to inspect metadata packet trails.
+                </p>
+              )}
+            </div>
+
+            {/* Simulated Node Network Topology Mapping Engine */}
+            <div className="w-full h-full flex items-center justify-center relative py-12">
+              <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                {/* Dynamically draw linking network paths between nodes */}
+                {visibleNodes.map((node) => {
+                  if (!node.parentId) return null;
+                  const parent = mockCascadeData.find(n => n.id === node.parentId);
+                  if (!parent) return null;
+                  
+                  // Simple layout coordinates for demo visualization stability
+                  const idx = mockCascadeData.indexOf(node);
+                  const pIdx = mockCascadeData.indexOf(parent);
+                  const startX = 100 + (pIdx * 60);
+                  const startY = 150 + (pIdx % 2 === 0 ? 30 : -30);
+                  const endX = 100 + (idx * 60);
+                  const endY = 150 + (idx % 2 === 0 ? 30 : -30);
+
+                  return (
+                    <line 
+                      key={`edge-${node.id}`}
+                      x1={startX} y1={startY} x2={endX} y2={endY}
+                      className="stroke-slate-800 stroke-2"
+                      strokeDasharray="4 4"
+                    />
+                  );
+                })}
+              </svg>
+
+              {/* Render Nodes onto structural layouts */}
+              <div className="flex flex-wrap justify-center items-center gap-8 max-w-2xl z-10 relative">
+                {visibleNodes.map((node) => {
+                  const isInfluencer = node.type === "influencer";
+                  const isOrigin = node.type === "origin";
+
+                  return (
+                    <div
+                      key={node.id}
+                      onMouseEnter={() => setHoveredNode(node)}
+                      onMouseLeave={() => setHoveredNode(null)}
+                      className={`relative cursor-crosshair p-3 rounded-md transition-all duration-300 border shadow-2xl flex flex-col items-center justify-center w-24 h-24 text-center
+                        ${isOrigin ? "bg-cyan-950/40 border-cyan-500 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.2)]" : ""}
+                        ${isInfluencer ? "bg-indigo-950/40 border-indigo-500 text-indigo-200 shadow-[0_0_15px_rgba(99,102,241,0.2)] scale-110" : ""}
+                        ${node.type === "organic" ? "bg-slate-900/90 border-slate-700 text-slate-300 hover:border-slate-500" : ""}
+                      `}
+                    >
+                      <span className="text-[10px] font-mono font-bold truncate max-w-full block text-slate-300">
+                        {node.user}
+                      </span>
+                      <span className="text-[9px] text-slate-500 font-mono mt-1 uppercase">
+                        {node.platform}
+                      </span>
+                      <div className="absolute -bottom-1.5 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800 text-[8px] font-mono text-slate-400">
+                        +{node.timestamp}m
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Real-time Dynamic Metrics Strips */}
+            <div className="grid grid-cols-3 gap-4 border-t border-slate-900 pt-4 bg-[#070c18] p-3 rounded border border-slate-800/40">
+              <div>
+                <span className="text-[10px] font-mono text-slate-500 uppercase block">Active Spread Nodes</span>
+                <span className="text-md font-mono font-bold text-slate-200">{currentMetrics.activeNodes} / {mockCascadeData.length}</span>
+              </div>
+              <div>
+                <span className="text-[10px] font-mono text-slate-500 uppercase block">Accumulated Reach</span>
+                <span className="text-md font-mono font-bold text-cyan-400">{currentMetrics.accumulatedReach.toLocaleString()}</span>
+              </div>
+              <div>
+                <span className="text-[10px] font-mono text-slate-500 uppercase block">Distribution Velocity</span>
+                <span className="text-md font-mono font-bold text-indigo-400">{currentMetrics.velocity}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Core Feature: Replay Mode & Spread Timeline Control Deck */}
+          <div className="bg-[#090d16] border border-slate-800/80 rounded-lg p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className={`p-2 rounded flex items-center justify-center transition-colors ${isPlaying ? "bg-amber-600 hover:bg-amber-700 text-white" : "bg-cyan-600 hover:bg-cyan-700 text-white"}`}
+                >
+                  {isPlaying ? <Pause size={15} /> : <Play size={15} className="ml-0.5" />}
+                </button>
+                <button
+                  onClick={() => { setIsPlaying(false); setCurrentTime(0); }}
+                  className="p-2 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 transition-colors"
+                >
+                  <RotateCcw size={15} />
+                </button>
+                <span className="text-xs font-mono text-slate-400 px-2">
+                  Timeline Offset: <strong className="text-cyan-400">T + {currentTime} minutes</strong>
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500">Temporal Scrubber Engine</span>
+            </div>
+
+            {/* The Timeline Slider/Scrubber bar */}
+            <input
+              type="range"
+              min="0"
+              max={maxTime}
+              value={currentTime}
+              onChange={(e) => setCurrentTime(parseInt(e.target.value))}
+              className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500 focus:outline-none"
+            />
+            <div className="flex justify-between text-[10px] font-mono text-slate-600">
+              <span>0m (Origin Event)</span>
+              <span>15m</span>
+              <span>30m (Peak Impact)</span>
+              <span>45m</span>
+              <span>60m (Decay Ceiling)</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* RIGHT COLUMN: INTELLIGENCE SIDEBAR PANEL (30% Area Width) */}
+        {/* ========================================================= */}
+        <section className="w-full lg:w-[30%] bg-[#060a12] p-6 flex flex-col space-y-6">
+          
+          {/* Section Identification Title */}
+          <div>
+            <h3 className="text-xs font-mono uppercase tracking-widest text-cyan-500">Intelligence Briefing</h3>
+            <h2 className="text-md font-bold text-slate-200 mt-1">Distribution & Demand Mechanics</h2>
+          </div>
+
+          <hr className="border-slate-800/60" />
+
+          {/* Required Feature: 'Why This Matters' Panel */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-semibold text-slate-300 uppercase font-mono flex items-center gap-1.5">
+              <BarChart3 size={13} className="text-cyan-400" /> 1. Why This Matters
+            </h4>
+            <div className="bg-slate-900/60 border border-slate-800/80 rounded p-3.5 text-xs text-slate-400 leading-relaxed space-y-2">
+              <p>
+                In standard information frameworks, audiences treat news as a purely organic event. This model proves virality behaves under strict, predictable decay half-lives[cite: 1]. 
+              </p>
+              <p className="text-slate-300 font-medium">
+                Distribution concentrates heavily into centralized nodes[cite: 1]. A single influencer node controls more velocity metrics than 90% of structural organic layers combined[cite: 1].
+              </p>
+            </div>
+          </div>
+
+          {/* Required Feature: 'Who Controls the Rail' Panel */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-semibold text-slate-300 uppercase font-mono flex items-center gap-1.5">
+              <ShieldAlert size={13} className="text-indigo-400" /> 2. Who Controls the Rail
+            </h4>
+            <div className="bg-slate-900/60 border border-slate-800/80 rounded p-3.5 text-xs text-slate-400 leading-relaxed space-y-2">
+              <p>
+                The underlying attention rail is dictated by centralized sorting filters like Meta, ByteDance, Alphabet, and X Corp[cite: 1]. 
+              </p>
+              <p className="text-slate-300 font-medium">
+                These platforms act as modern routing toll roads, deciding exactly where data packets cascade via programmatic ranking scoring models[cite: 1].
+              </p>
+            </div>
+          </div>
+
+          {/* Required Feature: Decay Curves & Static Insights Metrics Grid */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-semibold text-slate-300 uppercase font-mono flex items-center gap-1.5">
+              <Layers size={13} className="text-amber-400" /> 3. Structural Decay Half-Life
+            </h4>
+            <div className="bg-slate-900/40 border border-slate-800/60 rounded p-3 text-xs space-y-2.5 font-mono">
+              <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                <span className="text-slate-500">Global Metric Ceiling:</span>
+                <span className="text-slate-300 font-bold">{infrastructureMetadata.totalGlobalReach.toLocaleString()} views</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                <span className="text-slate-500">Velocity Peak Interval:</span>
+                <span className="text-slate-300 text-amber-400 font-bold">{infrastructureMetadata.peakVelocity}</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                <span className="text-slate-500">Decay Half-Life Limit:</span>
+                <span className="text-slate-300 font-bold">{infrastructureMetadata.decayHalfLife}</span>
+              </div>
+              <div className="flex justify-between text-[11px]">
+                <span className="text-slate-500">Dominant Vector:</span>
+                <span className="text-cyan-400 font-bold">{infrastructureMetadata.dominantPlatform}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 mt-auto">
+            {/* Required Feature: Downloadable Sample Data Button */}
+            <button
+              onClick={downloadSampleData}
+              className="w-full py-2.5 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 rounded text-xs font-mono font-medium text-slate-300 flex items-center justify-center space-x-2 transition-all active:scale-[0.98]"
+            >
+              <Download size={13} className="text-cyan-400" />
+              <span>Download Schema Export (.JSON)</span>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+</file>
+
+<file path="CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "temp-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.11.0",
+    "lucide-react": "^1.17.0",
+    "next": "16.2.7",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.7",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>
