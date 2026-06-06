@@ -12,7 +12,17 @@ import {
 import "@xyflow/react/dist/style.css"; 
 
 import { Play, Pause, RotateCcw, Download, ShieldAlert, Layers, BarChart3, Info, Terminal, Radio } from "lucide-react";
-import { mockCascadeData, infrastructureMetadata, CascadeNode } from "./data/mockCascade";
+
+interface CascadeNode {
+  id: string;
+  user: string;
+  platform: string;
+  type: "origin" | "influencer" | "routing";
+  content: string;
+  reach: number;
+  timestamp: number;
+  parentId: string | null;
+}
 
 interface LogMessage {
   id: string;
@@ -31,6 +41,12 @@ export default function SocialViralityCascadeExplorer() {
   const [logs, setLogs] = useState<LogMessage[]>([]);
   const logEndRef = useRef<HTMLDivElement>(null);
 
+  // 📂 Scenario State Engine (Swaps data files dynamically via FastAPI)
+  const [selectedScenario, setSelectedScenario] = useState<string>("A");
+
+  // Core reactive state populated asynchronously via Python FastAPI pipelines
+  const [backendNodes, setBackendNodes] = useState<CascadeNode[]>([]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -39,36 +55,68 @@ export default function SocialViralityCascadeExplorer() {
     logEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [logs]);
 
-  // Assemble logging entries dynamically based on the current scrubber index
+ // 📡 Asynchronous API Engine: Queries Pandas filtration pipelines on FastAPI backend
+  useEffect(() => {
+    async function fetchCascadeData() {
+      try {
+        // Point this directly to the explicit 127.0.0.1 address shown in your uvicorn terminal
+        const response = await fetch(`http://127.0.0.1:8000/api/cascade?time=${currentTime}&scenario=${selectedScenario}`);
+        if (response.ok) {
+          const data = await response.json();
+          setBackendNodes(data);
+        }
+      } catch (error) {
+        console.error("FastAPI connection offline. Launch via: uvicorn main:app --reload", error);
+      }
+    }
+    fetchCascadeData();
+  }, [currentTime, selectedScenario]);
+
+  // Dynamic Scoreboard contextual parameters mapping
+  const scoreboardMetadata = useMemo(() => {
+    if (selectedScenario === "B") {
+      return {
+        totalViews: "1,004,200",
+        highestShares: "31,000 shares/min",
+        mainApp: "TikTok (67.7% attention share)"
+      };
+    }
+    // Default Scenario A metrics
+    return {
+      totalViews: "407,600",
+      highestShares: "14,200 shares/min",
+      mainApp: "TikTok (61.3% attention share)"
+    };
+  }, [selectedScenario]);
+
+  // Assemble logging entries dynamically based on data returned by Pandas
   useEffect(() => {
     const freshLogs: LogMessage[] = [];
     
-    mockCascadeData.forEach((node) => {
-      if (node.timestamp <= currentTime) {
-        const timeStr = `[T+${String(node.timestamp).padStart(2, "0")}m]`;
-        
-        if (node.type === "origin") {
-          freshLogs.push({
-            id: `log-origin-${node.id}`,
-            timestamp: timeStr,
-            text: `ALERT: Origin leak detected on ${node.platform} by ${node.user}. Payload: "${node.content.substring(0, 45)}..."`,
-            type: "critical"
-          });
-        } else if (node.type === "influencer") {
-          freshLogs.push({
-            id: `log-inf-${node.id}`,
-            timestamp: timeStr,
-            text: `WARNING: High-density Hub reached on ${node.platform} via ${node.user}. Cross-platform acceleration active.`,
-            type: "warning"
-          });
-        } else {
-          freshLogs.push({
-            id: `log-org-${node.id}`,
-            timestamp: timeStr,
-            text: `ROUTING: Secondary packet replication verified on ${node.platform} by ${node.user}.`,
-            type: "info"
-          });
-        }
+    backendNodes.forEach((node) => {
+      const timeStr = `[T+${String(node.timestamp).padStart(2, "0")}m]`;
+      
+      if (node.type === "origin") {
+        freshLogs.push({
+          id: `log-origin-${node.id}`,
+          timestamp: timeStr,
+          text: `ALERT: Origin leak detected on ${node.platform} by ${node.user}. Payload: "${node.content.substring(0, 45)}..."`,
+          type: "critical"
+        });
+      } else if (node.type === "influencer") {
+        freshLogs.push({
+          id: `log-inf-${node.id}`,
+          timestamp: timeStr,
+          text: `WARNING: High-density Hub reached on ${node.platform} via ${node.user}. Cross-platform acceleration active.`,
+          type: "warning"
+        });
+      } else {
+        freshLogs.push({
+          id: `log-org-${node.id}`,
+          timestamp: timeStr,
+          text: `ROUTING: Secondary packet replication verified on ${node.platform} by ${node.user}.`,
+          type: "info"
+        });
       }
     });
 
@@ -90,7 +138,7 @@ export default function SocialViralityCascadeExplorer() {
     }
 
     setLogs(freshLogs.sort((a, b) => a.timestamp.localeCompare(b.timestamp)));
-  }, [currentTime]);
+  }, [backendNodes, currentTime]);
 
   // Timeline playback interval engine
   useEffect(() => {
@@ -109,13 +157,12 @@ export default function SocialViralityCascadeExplorer() {
     return () => clearInterval(interval);
   }, [isPlaying]);
 
+  // Apply visual platform constraints across incoming data arrays
   const visibleRawNodes = useMemo(() => {
-    return mockCascadeData.filter((node) => {
-      const matchesTime = node.timestamp <= currentTime;
-      const matchesPlatform = selectedPlatform === "All" || node.platform === selectedPlatform;
-      return matchesTime && matchesPlatform;
+    return backendNodes.filter((node) => {
+      return selectedPlatform === "All" || node.platform === selectedPlatform;
     });
-  }, [currentTime, selectedPlatform]);
+  }, [backendNodes, selectedPlatform]);
 
   // Custom Branded Platform Nodes
   const flowNodes = useMemo<Node[]>(() => {
@@ -222,7 +269,7 @@ export default function SocialViralityCascadeExplorer() {
   }, [visibleRawNodes, currentTime]);
 
   const downloadSampleData = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mockCascadeData, null, 2));
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backendNodes, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
     downloadAnchor.setAttribute("download", "social_virality_cascade_sample.json");
@@ -237,6 +284,7 @@ export default function SocialViralityCascadeExplorer() {
 
   return (
     <div className="h-screen w-screen bg-[#030712] text-slate-100 font-sans selection:bg-white/20 overflow-hidden flex flex-col">
+      <title>Social Virality Cascade Explorer</title>
       
       {/* Top Navbar Header */}
       <header className="border-b border-slate-800/60 bg-[#090d16] px-6 py-3.5 flex items-center justify-between backdrop-blur-md shrink-0 z-50">
@@ -257,7 +305,7 @@ export default function SocialViralityCascadeExplorer() {
       <main className="flex flex-1 flex-row overflow-hidden w-full">
         
         {/* ============================================================================ */}
-        {/* LEFT SECTION: MAP STAGE & LIVE CONSOLE TICKER GRID (Updated strictly to 69% Width) */}
+        {/* LEFT SECTION: MAP STAGE & LIVE CONSOLE TICKER GRID (Strictly 69% Width)       */}
         {/* ============================================================================ */}
         <section className="w-[69%] p-5 flex flex-col border-r border-slate-800/40 h-full overflow-hidden justify-between space-y-4">
           
@@ -267,12 +315,22 @@ export default function SocialViralityCascadeExplorer() {
               <h2 className="text-sm font-medium text-slate-300">Cascade Replay Stage</h2>
               <p className="text-[11px] text-slate-400 mt-0.5">Scroll or pinch layout to zoom, click and drag background to pan network topology.</p>
             </div>
-            <div>
+            <div className="flex items-center space-x-2">
+              {/* Incident Scenario Selector Dropdown */}
+              <select 
+                value={selectedScenario} 
+                onChange={(e) => { setSelectedScenario(e.target.value); setCurrentTime(0); }}
+                className="bg-slate-900 border border-slate-800 text-xs text-white rounded px-3 py-1.5 focus:outline-none focus:border-white"
+              >
+                <option value="A">Incident A: Corporate Security Leak</option>
+                <option value="B">Incident B: Hardware Smart Ring Rumor</option>
+              </select>
+
+              {/* Platform Filter Dropdown */}
               <select 
                 value={selectedPlatform} 
                 onChange={(e) => setSelectedPlatform(e.target.value)}
-                suppressHydrationWarning={true}
-                className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded px-3 py-1.2 focus:outline-none focus:border-white"
+                className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded px-3 py-1.5 focus:outline-none focus:border-white"
               >
                 <option value="All">All Platforms</option>
                 <option value="X">X (Twitter)</option>
@@ -283,8 +341,7 @@ export default function SocialViralityCascadeExplorer() {
             </div>
           </div>
 
-          {/* Core Feature Layout: Large Expandable View Stage Mapping Canvas */}
-          {/* Stretches flawlessly to your target height boundary. Controls removed to eliminate the white box completely. */}
+          {/* Large Expandable View Stage Mapping Canvas */}
           <div className="relative flex-[3.5] bg-[#050911] rounded-lg border border-slate-800/80 overflow-hidden shadow-inner w-full">
             <ReactFlow
               nodes={flowNodes}
@@ -358,7 +415,6 @@ export default function SocialViralityCascadeExplorer() {
           </div>
 
           {/* Live System Terminal Monitor Alert Log Ticker Component */}
-          {/* Custom Amber-Orange alert tone added to remove the red error aesthetic */}
           <div className="bg-black border border-slate-800 rounded-lg p-3 font-mono text-xs flex flex-col flex-[0.9] min-h-[105px] max-h-[125px] shadow-2xl shrink-0 w-full">
             <div className="flex items-center space-x-2 border-b border-slate-900 pb-1.5 mb-1.5 text-slate-400 uppercase tracking-wider text-[9px] font-bold">
               <Terminal size={11} className="text-white" />
@@ -388,7 +444,7 @@ export default function SocialViralityCascadeExplorer() {
         </section>
 
         {/* ========================================================================= */}
-        {/* RIGHT SECTION: BRIEFING TEXT CONTEXT SIDEBAR (Updated strictly to 31% Width) */}
+        {/* RIGHT SECTION: BRIEFING TEXT CONTEXT SIDEBAR (Strictly 31% Width)         */}
         {/* ========================================================================= */}
         <section className="w-[31%] bg-[#060a12] p-5 flex flex-col space-y-5 h-full overflow-y-auto border-l border-slate-800/10 shrink-0 justify-between">
           
@@ -435,15 +491,15 @@ export default function SocialViralityCascadeExplorer() {
               <div className="bg-slate-900/40 border border-slate-800/60 rounded p-2.5 text-xs space-y-2 font-mono">
                 <div className="flex justify-between border-b border-slate-900/60 pb-1">
                   <span className="text-slate-500">Total Views:</span>
-                  <span className="text-slate-200 font-bold">{infrastructureMetadata.totalGlobalReach.toLocaleString()}</span>
+                  <span className="text-slate-200 font-bold">{scoreboardMetadata.totalViews}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-900/60 pb-1">
                   <span className="text-slate-500">Highest Shares / Min:</span>
-                  <span className="text-slate-300 text-slate-100 font-bold">{infrastructureMetadata.peakVelocity}</span>
+                  <span className="text-slate-100 font-bold">{scoreboardMetadata.highestShares}</span>
                 </div>
                 <div className="flex justify-between text-[11px]">
                   <span className="text-slate-500">Main Social App:</span>
-                  <span className="text-white font-bold">{infrastructureMetadata.dominantPlatform}</span>
+                  <span className="text-white font-bold">{scoreboardMetadata.mainApp}</span>
                 </div>
               </div>
             </div>
