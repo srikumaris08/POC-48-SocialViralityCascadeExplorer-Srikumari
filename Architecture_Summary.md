@@ -1,18 +1,25 @@
-#  Technical Architecture Summary
+# Technical Architecture Summary
 
 ## 1. System Design Overview
-The Social Virality Cascade Explorer is an interactive, high-fidelity frontend prototype built using **Next.js 14+ (App Router Architecture)** and strict **TypeScript**. 
+The Social Virality Cascade Explorer is built upon a **fully decoupled, client-server architecture** designed to isolate analytical data manipulation from user interface rendering operations. 
 
-The application is built to keep data filtering and UI layout rendering completely separate. This ensures that when a user moves the timeline slider, the application instantly updates the tracking map and counters without any sluggishness or page crashes.
+* **Frontend UI Subsystem:** Structured using **Next.js 14+ (App Router Architecture)** and strict **TypeScript**, managing layout constraints, infinite vector topologies, and micro-interactions.
+* **Backend Data Subsystem:** Powered by a high-performance **FastAPI (Python)** server coupled with a **Pandas** data-frame processing layer to manage matrix filtration, timestamp slices, and multi-scenario state management.
 
 ---
 
-## 2. Core Data Flow & Component Details
+## 2. Decoupled Data Flow & Component Details
 
-* **Reactive State Manager:** Uses native React hooks (`useState` and `useMemo`) to keep the timeline in sync. When the slider position changes, the application instantly filters the mock data array to match that exact minute before refreshing the visual elements.
-* **Infinite Vector Grid:** Powered by the **React Flow engine (`@xyflow/react`)**. This provides a responsive 2D canvas that handles absolute box positioning, allowing users to zoom and pan smoothly using trackpad pinch or mouse wheel scroll gestures.
-* **Animated Platform Connections:** Custom vector paths link the nodes together using flowing, animated pulse styles. The stroke color shifts dynamically to match the originating social media platform's visual identity.
-* **Scrollless Viewport Layout:** Styled using Tailwind CSS utility flags to lock the entire application into a fixed, single-screen view (`h-screen`, `overflow-hidden`). The interface splits perfectly into a **69% wide main map viewport** and a **31% wide details sidebar**, ensuring everything is completely visible at a glance on all modern monitors without vertical page scrolling.
+### A. Client-Server Communication Loop
+1. **State Trigger:** The user changes the interactive timeline slider or toggles the *Multi-Incident Scenario Dropdown* in the header bar.
+2. **Asynchronous Fetch Hook:** A React `useEffect` listener captures the state change and fires an asynchronous network request to the FastAPI backend:
+   `GET http://127.0.0.1:8000/api/cascade?time={currentTime}&scenario={selectedScenario}`
+3. **Pandas Vector Filtration:** The Python backend instantiates the selected mock dataset matrix as a Pandas DataFrame. It computes a quick conditional slice (`df[df["timestamp"] <= current_time]`) and converts the record matrix into a structured JSON payload response.
+4. **Reactive State Update:** The Next.js client consumes the clean JSON data payload and updates its internal state arrays, refreshing the visual nodes, streaming ticker logs, and scoreboard readouts instantly.
 
-  ---
+### B. Core Component Specifications
 
+* **Reactive State Manager:** Orchestrated via native React hooks (`useState` and `useMemo`). The system computes dynamic metrics and handles scenario changes on the fly. It synchronizes the right-hand *Internet Scoreboard* text metadata blocks directly with the selected scenario state without visual blinking.
+* **Infinite Vector Grid Stage:** Powered by the **React Flow engine (`@xyflow/react`)**. This layer operates on an absolute coordinate bounding system, allowing users to zoom and pan smoothly using trackpad pinch or mouse wheel scroll gestures over a hardware-accelerated 2D canvas.
+* **Chromatically Synced Connections:** Custom vector edge paths link the platform nodes together using animated, flowing pulse behaviors. The stroke color shifts dynamically to match the originating social media platform's visual identity (X, TikTok, LinkedIn, Reddit).
+* **Scrollless Viewport Layout Constraints:** Styled using strict Tailwind CSS utility flags to lock the entire application layout into a fixed, single-screen boundary (`w-screen h-screen overflow-hidden`). The interface splits perfectly into a **70% wide main map viewport & log console** and a **30% wide details sidebar**. This creates an absolute, zero-scroll single-page application context that ensures the live activity ticker log is always visible.
