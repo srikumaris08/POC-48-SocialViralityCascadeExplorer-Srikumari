@@ -28,15 +28,16 @@ This audit evaluates the system's interface consistency, data storytelling effec
 * **Chromatically Synced Tracking Links:** The vector edge paths linking cross-platform user accounts feature animated directional pulses that chromatically match the platform origin. This allows network analysts to map exactly how a data package crosses separate corporate internet infrastructure layers.
 
 ---
-
 ## 3. Dashboard Storytelling & Viewport Behavior
 
 * **Dynamic Data-Driven Narrative:** The user interface breaks down information flow into 4 distinct, cohesive quadrants:
   1. *Topology Inspection:* The central canvas renders the structural path of the tracking vectors.
   2. *Live Infrastructure Logging:* The system terminal component streams instant, chronological code alerts parsed live through Pandas data frames.
-  3. *Statistical Breakdown Ledger:* The right-hand information sidebar translates complex network maps into readable analytical parameters.
-  4. *Dynamic Scoreboard Contexts:* Scoreboard text metrics (Views, Max Share Velocity, Main App Share Share) alter their base text payloads automatically on incident state change, eliminating confusing static values.
-* **Strict Single-Screen Constraints (`100vh` Max):** Configured the layout grid on a rigid `w-screen h-screen overflow-hidden` structure.This creates an absolute, zero-scroll single-page application context that ensures the live activity ticker log is always visible.
+  3. *High-Visibility KPI Analytics Grid:* Structured cards embedded directly at the top of the information sidebar that dynamically capture and partition critical tracking metrics (Total Aggregate Views, Peak Velocity, Primary Rail Share) based on the active scenario payload.
+  4. *Strategic Intelligence Briefing:* The right-hand sidebar translates raw data pathways into high-tier analytical segments:
+     * *Why This Matters:* Documents the impact of algorithmic amplification from a single tier-1 platform account on mass content distribution thresholds.
+     * *Who Controls the Rail:* Analyzes proprietary platform routing engines and interactive friction coefficients that drive distribution velocities.
+* **Strict Single-Screen Constraints (`100vh` Max):** Configured the layout grid on a rigid `w-screen h-screen overflow-hidden` structure, allocating exactly **70% layout width** to the map stage/terminal and **30% layout width** to the briefing sidebars. This creates an absolute, zero-scroll single-page application context that ensures the live activity ticker log is always visible.
 
 ---
 
