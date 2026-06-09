@@ -1,0 +1,9 @@
+[
+  { "id": "1", "user": "GadgetLeaks_Global", "platform": "X", "type": "origin", "content": "RUMOR: Supply chain prints reveal early schematic for Next-Gen Smart Ring framework.", "reach": 95000, "timestamp": 0, "parentId": null, "decay_rate": 0.04 },
+  { "id": "2", "user": "RingReviewer_HQ", "platform": "X", "type": "routing", "content": "Analyzing thickness parameters from the leaked ring blueprint data stream.", "reach": 24000, "timestamp": 5, "parentId": "1", "decay_rate": 0.06 },
+  { "id": "3", "user": "WearableTech_Insider", "platform": "LinkedIn", "type": "influencer", "content": "Analysis: If these smart ring power management specs hold up, it completely disrupts current market shares.", "reach": 410000, "timestamp": 10, "parentId": "1", "decay_rate": 0.02 },
+  { "id": "4", "user": "Silicon_Valley_Brief", "platform": "LinkedIn", "type": "routing", "content": "Component orders shifting across Asian supply chains following device schematic leak.", "reach": 19500, "timestamp": 20, "parentId": "3", "decay_rate": 0.10 },
+  { "id": "5", "user": "Hardware_Hacks", "platform": "Reddit", "type": "routing", "content": "Speculation Thread: Can a battery that small safely handle real-time biometric collection cascades?", "reach": 125000, "timestamp": 30, "parentId": "3", "decay_rate": 0.05 },
+  { "id": "6", "user": "Trend_Setter_Tech", "platform": "TikTok", "type": "influencer", "content": "Forget smart watches! This upcoming ring leak changes everything we know about tracking health.", "reach": 1200000, "timestamp": 40, "parentId": "5", "decay_rate": 0.01 },
+  { "id": "7", "user": "Tech_Consumer_Daily", "platform": "Reddit", "type": "routing", "content": "Hardware analysts downplay structural limits. Expecting late Q4 distribution validation.", "reach": 45000, "timestamp": 55, "parentId": "5", "decay_rate": 0.12 }
+]

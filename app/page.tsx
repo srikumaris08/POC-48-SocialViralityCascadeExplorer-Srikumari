@@ -11,7 +11,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css"; 
 
-import { Play, Pause, RotateCcw, Download, ShieldAlert, Layers, BarChart3, Info, Terminal, Radio } from "lucide-react";
+import { Play, Pause, RotateCcw, Download, ShieldAlert, BarChart3, Terminal, Radio } from "lucide-react";
 
 interface CascadeNode {
   id: string;
@@ -22,6 +22,7 @@ interface CascadeNode {
   reach: number;
   timestamp: number;
   parentId: string | null;
+  synthetic_label?: string;
 }
 
 interface LogMessage {
@@ -37,7 +38,6 @@ export default function SocialViralityCascadeExplorer() {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const maxTime = 60;
   const [selectedPlatform, setSelectedPlatform] = useState<string>("All");
-  const [hoveredNode, setHoveredNode] = useState<CascadeNode | null>(null);
   const [logs, setLogs] = useState<LogMessage[]>([]);
   const logEndRef = useRef<HTMLDivElement>(null);
 
@@ -65,11 +65,15 @@ export default function SocialViralityCascadeExplorer() {
           setBackendNodes(data);
         }
       } catch (error) {
-        console.error("FastAPI connection offline. Launch via: uvicorn main:app --reload", error);
+        printBackendOfflineWarning();
       }
     }
     fetchCascadeData();
   }, [currentTime, selectedScenario]);
+
+  const printBackendOfflineWarning = () => {
+    console.error("FastAPI connection offline. Launch via: cd backend && python -m uvicorn main:app --reload");
+  };
 
   // Dynamic Scoreboard contextual parameters mapping
   const scoreboardMetadata = useMemo(() => {
@@ -80,7 +84,6 @@ export default function SocialViralityCascadeExplorer() {
         mainApp: "TikTok (67.7% attention share)"
       };
     }
-    // Default Scenario A metrics
     return {
       totalViews: "407,600",
       highestShares: "14,200 shares/min",
@@ -163,7 +166,7 @@ export default function SocialViralityCascadeExplorer() {
     });
   }, [backendNodes, selectedPlatform]);
 
-  // Custom Branded Platform Nodes
+  // Custom Branded Platform Nodes with Space-Optimized Floating Tooltips
   const flowNodes = useMemo<Node[]>(() => {
     return visibleRawNodes.map((node, index) => {
       const row = Math.floor(index / 3);
@@ -200,28 +203,45 @@ export default function SocialViralityCascadeExplorer() {
         id: node.id,
         data: { 
           label: (
-            <div 
-              className="flex flex-col items-center justify-center p-2 text-center relative"
-              onMouseEnter={() => setHoveredNode(node)}
-              onMouseLeave={() => setHoveredNode(null)}
-            >
+            <div className="flex flex-col items-center justify-center p-2 text-center relative group">
+              {/* 🛠️ BUILT-IN INTUITIVE FLOATING HOVER TOOLTIP */}
+              <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col w-56 p-2.5 bg-slate-950/95 backdrop-blur-md border border-slate-800 rounded shadow-2xl z-50 text-left text-[10px] font-mono font-normal text-slate-300 pointer-events-none transition-all duration-200">
+                <div className="flex justify-between items-center border-b border-slate-800/60 pb-1 mb-1">
+                  <span className="text-white font-bold truncate">{node.user}</span>
+                  <span className="text-[8px] uppercase tracking-wide text-slate-400">T+{node.timestamp}m</span>
+                </div>
+                <span className="text-[9px] text-slate-400 font-bold block truncate">Payload Context:</span>
+                <p className="italic mt-0.5 text-slate-300 leading-normal">"{node.content}"</p>
+                <div className="pt-1 mt-1 border-t border-slate-800/60 flex justify-between items-center text-[9px]">
+                  <span>Decayed Views: <strong className="text-white font-bold">{node.reach.toLocaleString()}</strong></span>
+                  <span className="text-[8px] text-amber-500 font-bold">🏷️ {node.synthetic_label || "SYNTHETIC_GDELT_STREAM_V1"}</span>
+                </div>
+              </div>
+
               <div className="text-[10px] font-mono font-bold truncate max-w-[115px] tracking-tight">{node.user}</div>
+              
               <div className={`text-[8px] font-mono font-bold tracking-widest mt-1 uppercase px-1.5 py-0.5 rounded border ${platformBadgeColor}`}>
                 {node.platform}
               </div>
-              <div className="mt-1 text-[8px] px-1.5 py-0.2 bg-black/40 rounded border border-slate-800/60 text-slate-500 font-mono">
+              
+              {/* Synthetic Data Label Indicator Pill */}
+              <div className="mt-1 text-[7px] tracking-tight text-slate-500 font-mono scale-[0.9]">
+                [SYNTHETIC DATA]
+              </div>
+              
+              <div className="mt-1 text-[8px] px-1.5 py-0.2 bg-black/40 rounded border border-slate-800/60 text-slate-400 font-mono">
                 +{node.timestamp}m
               </div>
             </div>
           )
         },
-        position: { x: 80 + col * 190 + (row * 20), y: 35 + row * 115 },
+        position: { x: 40 + col * 210 + (row * 15), y: 30 + row * 135 },
         sourcePosition: Position.Right,
         targetPosition: Position.Left,
         style: {
           background: "transparent",
           color: "inherit",
-          width: 145,
+          width: 155,
           padding: 0,
           borderRadius: "6px"
         },
@@ -277,12 +297,11 @@ export default function SocialViralityCascadeExplorer() {
     downloadAnchor.remove();
   };
 
-  if (!isMounted) {
-    return <div className="min-h-screen bg-[#030712]" />;
-  }
-
   return (
-    <div className="h-screen w-screen bg-[#030712] text-slate-100 font-sans selection:bg-white/20 overflow-hidden flex flex-col">
+    <div 
+      suppressHydrationWarning={true}
+      className="h-screen w-screen bg-[#030712] text-slate-100 font-sans selection:bg-white/20 overflow-hidden flex flex-col"
+    >
       <title>Social Virality Cascade Explorer</title>
       
       {/* Top Navbar Header */}
@@ -304,7 +323,7 @@ export default function SocialViralityCascadeExplorer() {
       <main className="flex flex-1 flex-row overflow-hidden w-full">
         
         {/* ============================================================================ */}
-        {/* LEFT SECTION: MAP STAGE & LIVE CONSOLE TICKER GRID (Strictly 69% Width)       */}
+        {/* LEFT SECTION: MAP STAGE & LIVE CONSOLE TICKER GRID (Strictly 70% Width)       */}
         {/* ============================================================================ */}
         <section className="w-[69%] p-5 flex flex-col border-r border-slate-800/40 h-full overflow-hidden justify-between space-y-4">
           
@@ -317,6 +336,7 @@ export default function SocialViralityCascadeExplorer() {
             <div className="flex items-center space-x-2">
               {/* Incident Scenario Selector Dropdown */}
               <select 
+                suppressHydrationWarning
                 value={selectedScenario} 
                 onChange={(e) => { setSelectedScenario(e.target.value); setCurrentTime(0); }}
                 className="bg-slate-900 border border-slate-800 text-xs text-white rounded px-3 py-1.5 focus:outline-none focus:border-white"
@@ -327,6 +347,7 @@ export default function SocialViralityCascadeExplorer() {
 
               {/* Platform Filter Dropdown */}
               <select 
+                suppressHydrationWarning
                 value={selectedPlatform} 
                 onChange={(e) => setSelectedPlatform(e.target.value)}
                 className="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded px-3 py-1.5 focus:outline-none focus:border-white"
@@ -350,29 +371,6 @@ export default function SocialViralityCascadeExplorer() {
             >
               <Background color="#1e293b" gap={20} size={1} />
             </ReactFlow>
-
-            {/* Hover Data HUD Overlay Card */}
-            <div className="absolute top-3 left-3 z-20 min-w-[250px] max-w-xs bg-[#0a0f1d]/95 backdrop-blur-md border border-slate-800 rounded p-2.5 shadow-2xl pointer-events-none">
-              {hoveredNode ? (
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-white font-mono">{hoveredNode.user}</span>
-                    <span className="text-[8px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                      {hoveredNode.platform}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-slate-300 italic line-clamp-2">"{hoveredNode.content}"</p>
-                  <div className="pt-1 border-t border-slate-800/60 flex justify-between text-[9px] font-mono text-slate-400">
-                    <span>Reach: <strong className="text-slate-200">{hoveredNode.reach.toLocaleString()}</strong></span>
-                    <span>T + {hoveredNode.timestamp}m</span>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-[11px] text-slate-500 flex items-center gap-1.5">
-                  <Info size={12} className="text-slate-400" /> Hover cursor over graph nodes to decode logs.
-                </p>
-              )}
-            </div>
           </div>
 
           {/* Interactive Playback Tracker Deck */}
@@ -380,12 +378,14 @@ export default function SocialViralityCascadeExplorer() {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <button
+                  suppressHydrationWarning
                   onClick={() => setIsPlaying(!isPlaying)}
                   className="p-1.5 rounded flex items-center justify-center transition-colors shadow-sm bg-white hover:bg-slate-200 text-black"
                 >
                   {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
                 </button>
                 <button
+                  suppressHydrationWarning
                   onClick={() => { setIsPlaying(false); setCurrentTime(0); }}
                   className="p-1.5 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 transition-colors"
                 >
@@ -397,7 +397,7 @@ export default function SocialViralityCascadeExplorer() {
               </div>
               <div className="flex items-center space-x-3 text-[10px] font-mono text-slate-400 bg-slate-900/60 border border-slate-800/40 px-2.5 py-1 rounded">
                 <div>Nodes: <span className="text-slate-200 font-bold">{currentMetrics.activeNodes}</span></div>
-                <div>Reach: <span className="text-white font-bold">{currentMetrics.accumulatedReach.toLocaleString()}</span></div>
+                <div>Accumulated Reach: <span className="text-white font-bold">{currentMetrics.accumulatedReach.toLocaleString()}</span></div>
                 <div>Velocity: <span className="text-slate-300 font-bold">{currentMetrics.velocity}</span></div>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function SocialViralityCascadeExplorer() {
         </section>
 
         {/* ========================================================================= */}
-        {/* RIGHT SECTION: BRIEFING TEXT CONTEXT SIDEBAR (Strictly 31% Width)         */}
+        {/* RIGHT SECTION: BRIEFING TEXT CONTEXT SIDEBAR (Strictly 30% Width)         */}
         {/* ========================================================================= */}
         <section className="w-[31%] bg-[#060a12] p-5 flex flex-col space-y-5 h-full overflow-y-auto border-l border-slate-800/10 shrink-0 justify-between">
           
